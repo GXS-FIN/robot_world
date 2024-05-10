@@ -35,4 +35,9 @@ public class Position {
         boolean withinRight = this.x <= bottomRight.getX();
         return withinTop && withinBottom && withinLeft && withinRight;
     }
+//TODO
+    @Override
+    public String toString() {
+        return x + "," + y;
+    }
 }

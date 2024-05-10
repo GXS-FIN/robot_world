@@ -12,18 +12,75 @@ public interface IWorld {
      * Enum used to track direction
      */
     enum Direction {
-        UP, RIGHT, DOWN, LEFT
+        UP(0,1),
+        RIGHT(1,0),
+        BOTTOM(0, -1),
+        LEFT(-1, 0);
+
+        private int x;
+        private int y;
+        Direction(int x, int y) {
+            this.x = x;
+            this.y =y;
+        }
+        public int getX() {
+            return x;
+        }
+        public int getY() {
+            return y;
+        }
+        public static Direction left(Direction direction){
+            switch (direction){
+                case UP: return LEFT;
+                case RIGHT: return UP;
+                case BOTTOM: return RIGHT;
+                case LEFT: return BOTTOM;
+                default: return null;
+            }
+        }
     }
 
     /**
      * Enum that indicates response for updatePosition request
      */
     enum UpdateResponse {
-        SUCCESS, //position was updated successfully
-        FAILED_OUTSIDE_WORLD, //robot will go outside world limits if allowed, so it failed to update the position
-        FAILED_OBSTRUCTED, //robot obstructed by at least one obstacle, thus cannot proceed.
-    }
+        READY ("Ready"),
+        SHUTDOWN("Shutting down..."),
+        SUCCESS("Success"), //position was updated successfully
+        SOLVED("I am at the "),
+        FAILED("Sorry, I did not understand "),
+        FAILED_NO_SOLUTION("Sorry, I cannot solve to that edge."),
+        FAILED_OUTSIDE_WORLD("Sorry, I cannot go outside my safe zone."), //robot will go outside world limits if allowed, so it failed to update the position
+        FAILED_OBSTRUCTED("Sorry, there is an obstacle in the way."),//robot obstructed by at least one obstacle, thus cannot proceed.
+        TURNED_LEFT("Turned left."),
+        TURNED_RIGHT("Turned right."),
+        HELP (
+                        "I can understand these commands:\n" +
+                        "OFF     - Shut down robot\n" +
+                        "HELP    - provide information about commands\n" +
+                        "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'\n" +
+                        "BACK    - move backwards by specified number of steps, e.g. 'BACK 10'\n" +
+                        "LEFT    - turn left\n" +
+                        "RIGHT   - turn right\n" +
+                        "SPRINT  - move forward by specified number of steps, then again by one less and so on, e.g. 'SPRINT 5'\n" +
+                        "MAZERUN - solve the current maze to an edge,  e.g. 'MAZERUN BOTTOM'\n" +
+                        "REPLAY  - replay commands from history\n"
+        );
+        private String message;
+        UpdateResponse(String message){
+            this.message = message;
+        }
+        public String getMessage() {
+            return message;
+        }
 
+        public void setMessage(String message){
+            this.message = message;
+        }
+    }
+    UpdateResponse getStatus();
+    Position BOTTOM_LEFT = new Position(-100,-200);
+    Position TOP_RIGHT = new Position(100,200);
     Position CENTRE = new Position(0,0);
 
     /**

@@ -2,6 +2,9 @@ package za.co.wethinkcode.toyrobot;
 
 
 import org.junit.jupiter.api.Test;
+import za.co.wethinkcode.toyrobot.maze.EmptyMaze;
+import za.co.wethinkcode.toyrobot.world.IWorld;
+import za.co.wethinkcode.toyrobot.world.TextWorld;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,58 +12,60 @@ class RobotTest {
 
     @Test
     void initialPosition() {
-        Robot robot = new Robot("CrashTestDummy");
-        assertEquals(Robot.CENTRE, robot.getPosition());
-        assertEquals(Direction.NORTH, robot.getCurrentDirection());
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
+        assertEquals(IWorld.CENTRE, robot.getPosition());
+        assertEquals(IWorld.Direction.UP, robot.getCurrentDirection());
     }
 
     @Test
     void dump() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         assertEquals("[0,0] CrashTestDummy> Ready", robot.toString());
     }
 
     @Test
     void shutdown() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         ShutdownCommand command = new ShutdownCommand();
         assertFalse(robot.handleCommand(command));
+        assertEquals(IWorld.UpdateResponse.SHUTDOWN, robot.getStatus());
     }
 
     @Test
     void forward() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         ForwardCommand command = new ForwardCommand("10");
         assertTrue(robot.handleCommand(command));
-        Position expectedPosition = new Position(Robot.CENTRE.getX(), Robot.CENTRE.getY() + 10);
+        Position expectedPosition = new Position(IWorld.CENTRE.getX(), IWorld.CENTRE.getY() + 10);
         assertEquals(expectedPosition, robot.getPosition());
-        assertEquals("Moved forward by 10 steps.", robot.getStatus());
+        assertEquals(IWorld.UpdateResponse.SUCCESS, robot.getStatus());
+        assertEquals("Moved forward by 10 steps.", robot.getStatus().getMessage());
     }
 
     @Test
     void forwardforward() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         assertTrue(robot.handleCommand(new ForwardCommand("10")));
         assertTrue(robot.handleCommand(new ForwardCommand("5")));
-        assertEquals("Moved forward by 5 steps.", robot.getStatus());
+        assertEquals(IWorld.UpdateResponse.SUCCESS, robot.getStatus());
+        assertEquals("Moved forward by 5 steps.", robot.getStatus().getMessage());
     }
 
     @Test
     void tooFarForward() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         assertTrue(robot.handleCommand(new ForwardCommand("1000")));
-        assertEquals(Robot.CENTRE, robot.getPosition());
-        assertEquals("Sorry, I cannot go outside my safe zone.", robot.getStatus());
+        assertEquals(IWorld.CENTRE, robot.getPosition());
+        assertEquals(IWorld.UpdateResponse.FAILED_OUTSIDE_WORLD, robot.getStatus());
+        assertEquals("Sorry, I cannot go outside my safe zone.", robot.getStatus().getMessage());
     }
 
     @Test
     void help() {
-        Robot robot = new Robot("CrashTestDummy");
+        Robot robot = new Robot("CrashTestDummy", new TextWorld(new EmptyMaze()));
         Command command = new HelpCommand();
         assertTrue(robot.handleCommand(command));
-        assertEquals("I can understand these commands:\n" +
-                "OFF  - Shut down robot\n" +
-                "HELP - provide information about commands\n" +
-                "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'", robot.getStatus());
+        assertEquals(IWorld.UpdateResponse.HELP, robot.getStatus());
+        assertEquals(IWorld.UpdateResponse.HELP.getMessage(), robot.getStatus().getMessage());
     }
 }
