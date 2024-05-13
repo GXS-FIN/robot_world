@@ -8,7 +8,7 @@ import za.co.wethinkcode.toyrobot.maze.RandomMaze;
 
 import za.co.wethinkcode.toyrobot.world.IWorld;
 import za.co.wethinkcode.toyrobot.world.TextWorld;
-import za.co.wethinkcode.toyrobot.world.TurtleWorld;
+//import za.co.wethinkcode.toyrobot.world.TurtleWorld;
 
 public class Play {
     static Scanner scanner;
@@ -80,26 +80,27 @@ public class Play {
                     world = new TextWorld(maze);
                     return world;
             }
-        } else if (args[0].equalsIgnoreCase("turtle")) {
-            String choiceMaze = args[1].toLowerCase();
-            switch (choiceMaze) {
-                case "":
-                case "EmptyMaze":
-                    maze = new EmptyMaze();
-                    Display("Loaded EmptyMaze.");
-                    world = new TurtleWorld(maze);
-                    return world;
-                case "SimpleMaze":
-                    maze = new SimpleMaze();
-                    Display("Loaded SimpleMaze");
-                    world = new TurtleWorld(maze);
-                    return world;
-                case "RandomMaze":
-                    maze = new RandomMaze();
-                    Display("Loaded RandomMaze.");
-                    world = new TurtleWorld(maze);
-                    return world;
-            }
+
+//        } else if (args[0].equalsIgnoreCase("turtle")) {
+//            String choiceMaze = args[1].toLowerCase();
+//            switch (choiceMaze) {
+//                case "":
+//                case "EmptyMaze":
+//                    maze = new EmptyMaze();
+//                    Display("Loaded EmptyMaze.");
+//                    world = new TurtleWorld(maze);
+//                    return world;
+//                case "SimpleMaze":
+//                    maze = new SimpleMaze();
+//                    Display("Loaded SimpleMaze");
+//                    world = new TurtleWorld(maze);
+//                    return world;
+//                case "RandomMaze":
+//                    maze = new RandomMaze();
+//                    Display("Loaded RandomMaze.");
+//                    world = new TurtleWorld(maze);
+//                    return world;
+//            }
         }
         maze = new EmptyMaze();
         Display("Loaded EmptyMaze.");

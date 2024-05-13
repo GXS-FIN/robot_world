@@ -10,7 +10,7 @@ public class HelpCommand extends Command {
 
     @Override
     public boolean execute(Robot target) {
-        target.setStatus(IWorld.UpdateResponse.HELP);
+        target.setStatus(IWorld.UpdateResponse.HELP);  // Directly uses the enum from IWorld to set the status
         return true;
     }
 }

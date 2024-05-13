@@ -20,24 +20,25 @@ public class Position {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Position)) return false; // More idiomatic check
         Position position = (Position) o;
+        return x == position.x && y == position.y; // Streamlined condition
+    }
 
-        if (x != position.x) return false;
-        return y == position.y;
+    @Override
+    public int hashCode() {
+        int result = Integer.hashCode(x);
+        result = 31 * result + Integer.hashCode(y); // Properly implementing hashCode
+        return result;
     }
 
     public boolean isIn(Position topLeft, Position bottomRight) {
-        boolean withinTop = this.y <= topLeft.getY();
-        boolean withinBottom = this.y >= bottomRight.getY();
-        boolean withinLeft = this.x >= topLeft.getX();
-        boolean withinRight = this.x <= bottomRight.getX();
-        return withinTop && withinBottom && withinLeft && withinRight;
+        return y <= topLeft.getY() && y >= bottomRight.getY() &&
+                x >= topLeft.getX() && x <= bottomRight.getX();
     }
-//TODO
+
     @Override
     public String toString() {
-        return x + "," + y;
+        return x + "," + y; // TODO removed as completed
     }
 }

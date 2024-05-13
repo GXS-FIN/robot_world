@@ -4,17 +4,22 @@ public class BackCommand extends Command {
     public BackCommand() {
         super("back");
     }
+
     public BackCommand(String argument) {
         super("back", argument);
     }
+
     @Override
     public boolean execute(Robot target) {
-        if (getArgument().matches("[0-9]+")){
-            int Steps = Integer.parseInt(getArgument());
+        String argument = getArgument();
+        if (argument.matches("\\d+")) {  // Ensures the argument contains only digits
+            int steps = Integer.parseInt(argument); // Use a more conventional variable naming
 
-            target.updatePosition(-Steps);
-            target.setStatus("Moved back by " + Steps+" steps.");
-        } else {throw new IllegalArgumentException("Please enter an integer for steps.");}
+            target.updatePosition(-steps); // Negative to indicate moving back
+            target.setStatus("Moved back by " + steps + " steps.");
+        } else {
+            throw new IllegalArgumentException("Please enter a valid integer for steps.");
+        }
         return true;
     }
 }

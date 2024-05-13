@@ -1,9 +1,9 @@
 package za.co.wethinkcode.toyrobot;
 
+import za.co.wethinkcode.toyrobot.world.TurtleWorld;
 
-import java.util.ArrayList;
+
 import java.util.List;
-
 import za.co.wethinkcode.toyrobot.world.IWorld;
 import za.co.wethinkcode.toyrobot.world.Obstacle;
 import za.co.wethinkcode.toyrobot.world.IWorld.UpdateResponse;
@@ -14,67 +14,74 @@ public class Robot {
     private final IWorld world;
     private UpdateResponse status;
     private String name;
-    public boolean turtleMode = TurtleWorld.getTurtleMode();
+    private boolean turtleMode;
 
-    public Robot(String name,IWorld world) {
-        this.world = world;
+    public Robot(String name, IWorld world) {
         this.name = name;
+        this.world = world;
         this.status = UpdateResponse.READY;
-    }
-    public UpdateResponse getStatus() {
-        return this.status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = UpdateResponse.SUCCESS;
-        this.status.setMessage(status);
+        this.turtleMode = TurtleWorld.getTurtleMode(); // Initialize within constructor
     }
 
-    public void setStatus(IWorld.UpdateResponse status) {
+    public UpdateResponse getStatus() {
+        return status;
+    }
+
+    public void setStatus(UpdateResponse status) {
         this.status = status;
     }
-    
+
+    public void setStatus(String statusMessage) {
+        this.status = UpdateResponse.SUCCESS;
+        this.status.setMessage(statusMessage);
+    }
+
     public String getName() {
         return name;
     }
 
-
-    public IWorld.Direction getCurrentDirection() {return this.world.getCurrentDirection();}
-
-    public Position getPosition() {
-        return this.world.getPosition();
+    public IWorld.Direction getCurrentDirection() {
+        return world.getCurrentDirection();
     }
 
-    public List<Obstacle> getObstacles(){
-        return this.world.getObstacles();
+    public Position getPosition() {
+        return world.getPosition();
+    }
+
+    public List<Obstacle> getObstacles() {
+        return world.getObstacles();
     }
 
     public boolean handleCommand(Command command) {
-        command.execute(this);
-        return !(this.getStatus() == UpdateResponse.SHUTDOWN);
+        return command.execute(this) && this.status != UpdateResponse.SHUTDOWN;
     }
-    
 
-    public boolean updatePosition(int nrSteps){
-        status = world.updatePosition(nrSteps);
-        if (turtleMode){TurtleWorld.turtleMove(nrSteps);}
+    public boolean updatePosition(int nrSteps) {
+        this.status = world.updatePosition(nrSteps);
+        if (turtleMode) {
+            TurtleWorld.turtleMove(nrSteps);
+        }
         return status == UpdateResponse.SUCCESS;
     }
 
     public void updateDirection(boolean turnRight) {
         world.updateDirection(turnRight);
-        if (turtleMode){TurtleWorld.turnTurtleRobot(turnRight);}
-       status = world.getStatus();
+        if (turtleMode) {
+            TurtleWorld.turnTurtleRobot(turnRight);
+        }
+        this.status = world.getStatus();
     }
 
-    public void reset(){
-        if (turtleMode){TurtleWorld.turtleReset();}
-        this.world.reset();
+    public void reset() {
+        world.reset();
+        if (turtleMode) {
+            TurtleWorld.turtleReset();
+        }
     }
 
     @Override
     public String toString() {
-       return "[" + world.getPosition().getX() + "," + world.getPosition().getY() + "] "
-               + this.name + "> " + this.status.getMessage();
+        Position pos = world.getPosition();
+        return String.format("[%d,%d] %s> %s", pos.getX(), pos.getY(), name, status.getMessage());
     }
 }
