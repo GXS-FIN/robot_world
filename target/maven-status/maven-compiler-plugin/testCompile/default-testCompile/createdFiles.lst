@@ -1,0 +1,14 @@
+za/co/wethinkcode/lms/test/StudentTest.class
+za/co/wethinkcode/toyrobot/world/TextWorldTest.class
+za/co/wethinkcode/lms/test/EmptyMazeTest.class
+za/co/wethinkcode/lms/test/ObstacleTest.class
+za/co/wethinkcode/toyrobot/maze/SimpleMazeTest.class
+za/co/wethinkcode/toyrobot/CommandTest.class
+za/co/wethinkcode/toyrobot/RobotTest.class
+za/co/wethinkcode/toyrobot/maze/EmptyMazeTest.class
+za/co/wethinkcode/toyrobot/PositionTest.class
+za/co/wethinkcode/toyrobot/ObstacleTest.class
+za/co/wethinkcode/lms/test/WorldTest.class
+za/co/wethinkcode/lms/test/RobotTest.class
+za/co/wethinkcode/lms/test/SimpleMazeTest.class
+za/co/wethinkcode/lms/test/RunJUnit5TestsFromJava.class

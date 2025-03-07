@@ -39,6 +39,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return x + "," + y; // TODO removed as completed
+        return x + "," + y; //
     }
 }

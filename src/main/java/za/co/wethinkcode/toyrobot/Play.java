@@ -81,26 +81,7 @@ public class Play {
                     return world;
             }
 
-//        } else if (args[0].equalsIgnoreCase("turtle")) {
-//            String choiceMaze = args[1].toLowerCase();
-//            switch (choiceMaze) {
-//                case "":
-//                case "EmptyMaze":
-//                    maze = new EmptyMaze();
-//                    Display("Loaded EmptyMaze.");
-//                    world = new TurtleWorld(maze);
-//                    return world;
-//                case "SimpleMaze":
-//                    maze = new SimpleMaze();
-//                    Display("Loaded SimpleMaze");
-//                    world = new TurtleWorld(maze);
-//                    return world;
-//                case "RandomMaze":
-//                    maze = new RandomMaze();
-//                    Display("Loaded RandomMaze.");
-//                    world = new TurtleWorld(maze);
-//                    return world;
-//            }
+
         }
         maze = new EmptyMaze();
         Display("Loaded EmptyMaze.");
