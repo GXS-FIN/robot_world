@@ -65,7 +65,7 @@ Feel free to contribute by:
 - Improving documentation.
 
 ## License
-This project is open-source and available under the MIT License.
+This project is open-source
 
 ---
 
